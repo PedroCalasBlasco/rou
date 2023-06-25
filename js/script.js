@@ -100,10 +100,8 @@ function closeSidebar() {
       { 'INFO_FORMAT': 'application/json', 'QUERY_LAYERS': 'sitmax:afectaciones' }
     );  
 
-    
     let rouIn = false
-    console.log(rouIn)
-
+    
     if (urlDistritos) {
         fetch(urlDistritos)
           .then(function (response) {
@@ -117,47 +115,43 @@ function closeSidebar() {
 
                 sidebar.innerHTML = 
                 `<div class="popup">
-                    <div class="close" > 
+                    <div class="close"> 
                         <p onClick=closeSidebar()><strong>X</strong></p>
                     </div>
-                    <div><h4>ROU</h4></div>
-                    <div style="margin-top: 20px"> 
-                        <label>Descripción:</label><p><strong>${data.features[0].properties.descripcion}</strong></p>
+                    <div><h4>ROU (${data.features[0].properties.layer})</h4></div>
+                    <div style="margin-top: 20px;"> 
+                        <label><strong>Descripción: </strong>${data.features[0].properties.descripcion}</label>
                     </div> 
-                    <div style="margin-top: 10px"> 
-                        <label>Observación:</label>
-                        <p><strong>${data.features[0].properties.observacion}</strong></p>
+                    <div style="margin-top: 15px"> 
+                        <label><strong>Observación: </strong>${data.features[0].properties.observacion}</label>
                     </div> 
-                    <div style="margin-top: 10px"> 
-                        <label>Altura Máxima:</label>
-                        <p><strong>${!data.features[0].properties.alt_max ? 'Sin Especificar' :  data.features[0].properties.alt_max }</strong></p>
+                    <div style="margin-top: 15px"> 
+                        <label><strong>Altura Máxima: </strong>${!data.features[0].properties.alt_max ? 'Sin Especificar' :  data.features[0].properties.alt_max }</label>
                     </div> 
-                    <div style="margin-top: 10px"> 
-                        <label>Altura Mínima:</label>
-                        <p><strong>${!data.features[0].properties.alt_min ? 'Sin Especificar' :  data.features[0].properties.alt_min }</strong></p>
+                    <div style="margin-top: 15px"> 
+                        <label><strong>Altura Mínima: </strong>${!data.features[0].properties.alt_min ? 'Sin Especificar' :  data.features[0].properties.alt_min }</label>
                     </div> 
-                    <div style="margin-top: 10px"> 
-                        <label>FIS:</label>
-                        <p><strong>${!data.features[0].properties.fid_adm ? 'Sin Especificar' :  data.features[0].properties.fid_adm }</strong></p>
+                    <div style="margin-top: 15px"> 
+                        <label><strong>FIS: </strong>${!data.features[0].properties.fid_adm ? 'Sin Especificar' :  data.features[0].properties.fid_adm }</label>
                     </div> 
-                    <div style="margin-top: 10px"> 
-                        <label>FOE:</label>
-                        <p><strong>${!data.features[0].properties.foe ? 'Sin Especificar' :  data.features[0].properties.foe }</strong></p>
+                    <div style="margin-top: 15px"> 
+                        <label><strong>FOE: </strong>${!data.features[0].properties.foe ? 'Sin Especificar' :  data.features[0].properties.foe }</label>
                     </div> 
-                    <div style="margin-top: 10px"> 
-                        <label>FOS:</label>
-                        <p><strong>${!data.features[0].properties.fos_adm ? 'Sin Especificar' :  data.features[0].properties.fos_adm }</strong></p>
+                    <div style="margin-top: 15px"> 
+                        <label><strong>FOS: </strong>${!data.features[0].properties.fos_adm ? 'Sin Especificar' :  data.features[0].properties.fos_adm }</label>
                     </div>
-                    <div style="margin-top: 10px"> 
-                        <label>FOT:</label>
-                        <p><strong>${!data.features[0].properties.fot_adm ? 'Sin Especificar' :  data.features[0].properties.fot_adm }</strong></p>
+                    <div style="margin-top: 15px"> 
+                        <label><strong>FOT: </strong>${!data.features[0].properties.fot_adm ? 'Sin Especificar' :  data.features[0].properties.fot_adm }</label>
                     </div>
-                    <div style="margin-top: 10px"> 
-                        <label>FOT MÁX:</label>
-                        <p><strong>${!data.features[0].properties.fot_max ? 'Sin Especificar' :  data.features[0].properties.fot_max }</strong></p>
+                    <div style="margin-top: 15px"> 
+                        <label><strong>FOT MÁX: </strong>${!data.features[0].properties.fot_max ? 'Sin Especificar' :  data.features[0].properties.fot_max }</label>
                     </div>
                 </div>`
-            }
+
+                sidebar.innerHTML += `<div class="normativa-link"><a href="https://santafeciudad.gov.ar/secretaria-de-desarrollo-urbano/normativa-urbanistica/" target="_blank"> Ver Normativa Urbanística </a></div> ` 
+
+              }
+              
          
           })
           .catch(function (error) {
@@ -172,64 +166,34 @@ function closeSidebar() {
         })
         .then(function (data2) {
             if(data2.features.length > 0) {
-              console.log(data2.features)
-              if(rouIn){
-                console.log("PPP")
-                sidebar.innerHTML = 
-                `<div class="popup" style="margin-top: 20px">
-                    <div><h4>AFECTACIONES</h4></div>
-                    <div style="margin-top: 12px"> 
-                        <label>Nombre:</label><p><strong>${data2.features[0].properties.nombre_art}</strong></p>
-                    </div>
-                    <div style="margin-top: 10px"> 
-                      <label>Tramo:</label>
-                      <p><strong>${!data2.features[0].properties.tramo ? 'Sin Especificar' :  data2.features[0].properties.tramo }</strong></p>
-                    </div>  
-                    <div style="margin-top: 10px"> 
-                      <label>Ordenanza:</label>
-                      <p><strong>${!data2.features[0].properties.ordenanza ? 'Sin Especificar' :  data2.features[0].properties.ordenanza }</strong></p>
-                    </div>
-                    <div style="margin-top: 10px"> 
-                      <label>Ancho:</label>
-                      <p><strong>${!data2.features[0].properties.ancho_ofic ? 'Sin Especificar' :  data2.features[0].properties.ancho_ofic }</strong></p>
-                    </div>
-                  </div>
-                `  
-              
-              }else{
                 openSidebar()
-                console.log("NNNNN")
-                sidebar.innerHTML += 
-                `<div class="popup" style="margin-top: 20px">
-                    <div class="close" > 
-                      <p onClick=closeSidebar()><strong>X</strong></p>
-                    </div>
-                    <div><h4>AFECTACIONES</h4></div>
-                    <div style="margin-top: 12px"> 
-                        <label>Nombre:</label><p><strong>${data2.features[0].properties.nombre_art}</strong></p>
-                    </div>
-                    <div style="margin-top: 10px"> 
-                      <label>Tramo:</label>
-                      <p><strong>${!data2.features[0].properties.tramo ? 'Sin Especificar' :  data2.features[0].properties.tramo }</strong></p>
-                    </div>  
-                    <div style="margin-top: 10px"> 
-                      <label>Ordenanza:</label>
-                      <p><strong>${!data2.features[0].properties.ordenanza ? 'Sin Especificar' :  data2.features[0].properties.ordenanza }</strong></p>
-                    </div>
-                    <div style="margin-top: 10px"> 
-                      <label>Ancho:</label>
-                      <p><strong>${!data2.features[0].properties.ancho_ofic ? 'Sin Especificar' :  data2.features[0].properties.ancho_ofic }</strong></p>
-                    </div>
-                  </div>
-                `
-                  
-              }          
+                sidebar.innerHTML = afectacionesContent(data2) 
+                sidebar.innerHTML += `<div class="normativa-link"><a href="https://santafeciudad.gov.ar/secretaria-de-desarrollo-urbano/normativa-urbanistica/" target="_blank"> Ver Normativa Urbanística </a></div> `          
             }
         })
         .catch(function (error) {
             console.error(error);
           });
     }
-
   })
+
+  function afectacionesContent(data2){
+     return   `<div class="close"> 
+                  <p onClick=closeSidebar()><strong>X</strong></p>
+                    </div><div class="popup" style="margin-top: 20px;margin-bottom: 20px">
+                  <div><h4>AFECTACIÓN DE CALLE</h4></div>
+                <div style="margin-top: 12px"> 
+                  <label><strong>Nombre: </strong>${data2.features[0].properties.nombre_art}</label>
+                </div>
+                <div style="margin-top: 15px"> 
+                  <label><strong>Tramo: </strong>${!data2.features[0].properties.tramo ? 'Sin Especificar' :  data2.features[0].properties.tramo }</label>
+                </div>  
+                <div style="margin-top: 15px"> 
+                  <label><strong>Ordenanza: </strong>${!data2.features[0].properties.ordenanza ? 'Sin Especificar' :  data2.features[0].properties.ordenanza }</label>
+                </div>
+                <div style="margin-top: 15px"> 
+                  <label><strong>Ancho: </strong> ${!data2.features[0].properties.ancho_ofic ? 'Sin Especificar' :  data2.features[0].properties.ancho_ofic }</label>
+                </div>
+              </div>`  
+  }
 
