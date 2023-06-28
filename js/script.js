@@ -100,7 +100,7 @@ function closeSidebar() {
       { 'INFO_FORMAT': 'application/json', 'QUERY_LAYERS': 'sitmax:afectaciones' }
     );  
 
-    let rouIn = false
+    var rouIn = false
     
     if (urlDistritos) {
         fetch(urlDistritos)
@@ -150,14 +150,12 @@ function closeSidebar() {
 
                 sidebar.innerHTML += `<div class="normativa-link"><a href="https://santafeciudad.gov.ar/secretaria-de-desarrollo-urbano/normativa-urbanistica/" target="_blank"> Ver Normativa Urbanística </a></div> ` 
 
-              }
-              
-         
+              }    
           })
           .catch(function (error) {
             console.error(error);
           });
-      }
+    }
 
     if (urlAfectaciones) {
         fetch(urlAfectaciones)
@@ -166,10 +164,18 @@ function closeSidebar() {
         })
         .then(function (data2) {
             if(data2.features.length > 0) {
+              if(rouIn){
+                console.log("PPPEEEEEEEEEEEPPPPPPPPPPPPP", data2)
+                sidebar.innerHTML += afectacionesContentOutClose(data2) 
+              }else{
+                console.log("PPPEEEEEEEEEEEPPPPPPPPPPPPP", data2)
                 openSidebar()
                 sidebar.innerHTML = afectacionesContent(data2) 
-                sidebar.innerHTML += `<div class="normativa-link"><a href="https://santafeciudad.gov.ar/secretaria-de-desarrollo-urbano/normativa-urbanistica/" target="_blank"> Ver Normativa Urbanística </a></div> `          
-            }
+                sidebar.innerHTML += `<div class="normativa-link"><a href="https://santafeciudad.gov.ar/secretaria-de-desarrollo-urbano/normativa-urbanistica/" target="_blank"> Ver Normativa Urbanística </a></div> `     
+              }
+     
+            
+              }
         })
         .catch(function (error) {
             console.error(error);
@@ -177,10 +183,8 @@ function closeSidebar() {
     }
   })
 
-  function afectacionesContent(data2){
-     return   `<div class="close"> 
-                  <p onClick=closeSidebar()><strong>X</strong></p>
-                    </div><div class="popup" style="margin-top: 20px;margin-bottom: 20px">
+  function afectacionesContentOutClose(data2){
+     return   `<div class="popup" style="margin-top: 20px;margin-bottom: 20px">
                   <div><h4>AFECTACIÓN DE CALLE</h4></div>
                 <div style="margin-top: 12px"> 
                   <label><strong>Nombre: </strong>${data2.features[0].properties.nombre_art}</label>
@@ -196,4 +200,27 @@ function closeSidebar() {
                 </div>
               </div>`  
   }
+
+
+  function afectacionesContent(data2){
+    return   `<div class="close"> 
+                <p onClick=closeSidebar()><strong>X</strong></p>
+              </div>
+              <div class="popup" style="margin-top: 20px;margin-bottom: 20px">
+                 <div><h4>AFECTACIÓN DE CALLE</h4></div>
+               <div style="margin-top: 12px"> 
+                 <label><strong>Nombre: </strong>${data2.features[0].properties.nombre_art}</label>
+               </div>
+               <div style="margin-top: 15px"> 
+                 <label><strong>Tramo: </strong>${!data2.features[0].properties.tramo ? 'Sin Especificar' :  data2.features[0].properties.tramo }</label>
+               </div>  
+               <div style="margin-top: 15px"> 
+                 <label><strong>Ordenanza: </strong>${!data2.features[0].properties.ordenanza ? 'Sin Especificar' :  data2.features[0].properties.ordenanza }</label>
+               </div>
+               <div style="margin-top: 15px"> 
+                 <label><strong>Ancho: </strong> ${!data2.features[0].properties.ancho_ofic ? 'Sin Especificar' :  data2.features[0].properties.ancho_ofic }</label>
+               </div>
+             </div>`  
+ }
+
 
