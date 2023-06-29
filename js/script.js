@@ -1,4 +1,8 @@
 const sidebar = document.getElementById("sidebar");
+const close = document.getElementById("close");
+const rou = document.getElementById("rou");
+const afectaciones = document.getElementById("afectaciones");
+const link = document.getElementById("link");
 
 function openSidebar() {
     sidebar.classList.add("active");
@@ -78,13 +82,15 @@ function closeSidebar() {
 
 
   map.on('click', function (e) {
+    rou.innerHTML = ""
+    afectaciones.innerHTML = ""
+    link.innerHTML = ""
+
     closeSidebar() 
-  
 
     let viewResolution = map.getView().getResolution();
       
    
-
     let urlDistritos = layers[0].getSource().getFeatureInfoUrl(
       e.coordinate,
       viewResolution,
@@ -97,7 +103,7 @@ function closeSidebar() {
       e.coordinate,
       viewResolution,
       map.getView().getProjection(),
-      { 'INFO_FORMAT': 'application/json', 'QUERY_LAYERS': 'sitmax:afectaciones' }
+      { 'INFO_FORMAT': 'application/json', 'QUERY_LAYERS': 'sitmax:afectaciones', 'FEATURE_COUNT':'50' }
     );  
 
     var rouIn = false
@@ -113,11 +119,8 @@ function closeSidebar() {
                 openSidebar()
                 rouIn = true
 
-                sidebar.innerHTML = 
+                rou.innerHTML = 
                 `<div class="popup">
-                    <div class="close"> 
-                        <p onClick=closeSidebar()><strong>X</strong></p>
-                    </div>
                     <div><h4>ROU (${data.features[0].properties.layer})</h4></div>
                     <div style="margin-top: 20px;"> 
                         <label><strong>Descripción: </strong>${data.features[0].properties.descripcion}</label>
@@ -147,9 +150,6 @@ function closeSidebar() {
                         <label><strong>FOT MÁX: </strong>${!data.features[0].properties.fot_max ? 'Sin Especificar' :  data.features[0].properties.fot_max }</label>
                     </div>
                 </div>`
-
-                sidebar.innerHTML += `<div class="normativa-link"><a href="https://santafeciudad.gov.ar/secretaria-de-desarrollo-urbano/normativa-urbanistica/" target="_blank"> Ver Normativa Urbanística </a></div> ` 
-
               }    
           })
           .catch(function (error) {
@@ -164,63 +164,41 @@ function closeSidebar() {
         })
         .then(function (data2) {
             if(data2.features.length > 0) {
-              if(rouIn){
-                console.log("PPPEEEEEEEEEEEPPPPPPPPPPPPP", data2)
-                sidebar.innerHTML += afectacionesContentOutClose(data2) 
-              }else{
-                console.log("PPPEEEEEEEEEEEPPPPPPPPPPPPP", data2)
-                openSidebar()
-                sidebar.innerHTML = afectacionesContent(data2) 
-                sidebar.innerHTML += `<div class="normativa-link"><a href="https://santafeciudad.gov.ar/secretaria-de-desarrollo-urbano/normativa-urbanistica/" target="_blank"> Ver Normativa Urbanística </a></div> `     
-              }
-     
-            
-              }
+              data2.features.map((feature, index) => {
+                if(index === 0){
+                  afectaciones.innerHTML = afectacionesContentOutClose(feature) 
+                }else{
+                  afectaciones.innerHTML += afectacionesContentOutClose(feature) 
+                }
+                
+              })
+            }
         })
         .catch(function (error) {
             console.error(error);
           });
     }
+  close.innerHTML = `<div class="close"><p onClick=closeSidebar()><strong>X</strong></p></div>`
+  link.innerHTML = `<div class="normativa-link"><a href="https://santafeciudad.gov.ar/secretaria-de-desarrollo-urbano/normativa-urbanistica/" target="_blank"> Ver Normativa Urbanística </a></div> `     
   })
 
-  function afectacionesContentOutClose(data2){
-     return   `<div class="popup" style="margin-top: 20px;margin-bottom: 20px">
+  function afectacionesContentOutClose(feature){
+     return   `<div class="popup" style="margin-top: 25px;margin-bottom: 20px">
                   <div><h4>AFECTACIÓN DE CALLE</h4></div>
                 <div style="margin-top: 12px"> 
-                  <label><strong>Nombre: </strong>${data2.features[0].properties.nombre_art}</label>
+                  <label><strong>Nombre: </strong>${feature.properties.nombre_art}</label>
                 </div>
                 <div style="margin-top: 15px"> 
-                  <label><strong>Tramo: </strong>${!data2.features[0].properties.tramo ? 'Sin Especificar' :  data2.features[0].properties.tramo }</label>
+                  <label><strong>Tramo: </strong>${!feature.properties.tramo ? 'Sin Especificar' :  feature.properties.tramo }</label>
                 </div>  
                 <div style="margin-top: 15px"> 
-                  <label><strong>Ordenanza: </strong>${!data2.features[0].properties.ordenanza ? 'Sin Especificar' :  data2.features[0].properties.ordenanza }</label>
+                  <label><strong>Ordenanza: </strong>${!feature.properties.ordenanza ? 'Sin Especificar' :  feature.properties.ordenanza }</label>
                 </div>
                 <div style="margin-top: 15px"> 
-                  <label><strong>Ancho: </strong> ${!data2.features[0].properties.ancho_ofic ? 'Sin Especificar' :  data2.features[0].properties.ancho_ofic }</label>
+                  <label><strong>Ancho: </strong> ${!feature.properties.ancho_ofic ? 'Sin Especificar' :  feature.properties.ancho_ofic }</label>
                 </div>
               </div>`  
   }
 
-
-  function afectacionesContent(data2){
-    return   `<div class="close"> 
-                <p onClick=closeSidebar()><strong>X</strong></p>
-              </div>
-              <div class="popup" style="margin-top: 20px;margin-bottom: 20px">
-                 <div><h4>AFECTACIÓN DE CALLE</h4></div>
-               <div style="margin-top: 12px"> 
-                 <label><strong>Nombre: </strong>${data2.features[0].properties.nombre_art}</label>
-               </div>
-               <div style="margin-top: 15px"> 
-                 <label><strong>Tramo: </strong>${!data2.features[0].properties.tramo ? 'Sin Especificar' :  data2.features[0].properties.tramo }</label>
-               </div>  
-               <div style="margin-top: 15px"> 
-                 <label><strong>Ordenanza: </strong>${!data2.features[0].properties.ordenanza ? 'Sin Especificar' :  data2.features[0].properties.ordenanza }</label>
-               </div>
-               <div style="margin-top: 15px"> 
-                 <label><strong>Ancho: </strong> ${!data2.features[0].properties.ancho_ofic ? 'Sin Especificar' :  data2.features[0].properties.ancho_ofic }</label>
-               </div>
-             </div>`  
- }
 
 

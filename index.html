@@ -8,8 +8,15 @@
     <link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
 <body>
-    <div class="sidebar" id="sidebar"></div>
-    <div class="content" id="map"></div>
+    <div class="sidebar" id="sidebar" style="display: flex; flex-direction: column;">
+       
+            <div id="close"></div>
+            <div id="rou" style="flex-grow: 1;"></div>
+            <div id="afectaciones" style="flex-grow: 1;"></div>
+            <div id="link"></div>
+       
+    </div>
+    <div class="map" id="map"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/ol@v7.4.0/dist/ol.js"></script>
     <script src="js/script.js"></script>
