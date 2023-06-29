@@ -129,25 +129,25 @@ function closeSidebar() {
                         <label><strong>Observación: </strong>${data.features[0].properties.observacion}</label>
                     </div> 
                     <div style="margin-top: 15px"> 
-                        <label><strong>Altura Máxima: </strong>${!data.features[0].properties.alt_max ? 'Sin Especificar' :  data.features[0].properties.alt_max }</label>
+                        <label><strong>Altura Máxima: </strong>${!data.features[0].properties.alt_max ? '-' :  data.features[0].properties.alt_max }</label>
                     </div> 
                     <div style="margin-top: 15px"> 
-                        <label><strong>Altura Mínima: </strong>${!data.features[0].properties.alt_min ? 'Sin Especificar' :  data.features[0].properties.alt_min }</label>
+                        <label><strong>Altura Mínima: </strong>${!data.features[0].properties.alt_min ? '-' :  data.features[0].properties.alt_min }</label>
                     </div> 
                     <div style="margin-top: 15px"> 
-                        <label><strong>FIS: </strong>${!data.features[0].properties.fid_adm ? 'Sin Especificar' :  data.features[0].properties.fid_adm }</label>
+                        <label><strong>FIS: </strong>${!data.features[0].properties.fid_adm ? '-' :  data.features[0].properties.fid_adm }</label>
                     </div> 
                     <div style="margin-top: 15px"> 
-                        <label><strong>FOE: </strong>${!data.features[0].properties.foe ? 'Sin Especificar' :  data.features[0].properties.foe }</label>
+                        <label><strong>FOE: </strong>${!data.features[0].properties.foe ? '-' :  data.features[0].properties.foe }</label>
                     </div> 
                     <div style="margin-top: 15px"> 
-                        <label><strong>FOS: </strong>${!data.features[0].properties.fos_adm ? 'Sin Especificar' :  data.features[0].properties.fos_adm }</label>
+                        <label><strong>FOS: </strong>${!data.features[0].properties.fos_adm ? '-' :  data.features[0].properties.fos_adm }</label>
                     </div>
                     <div style="margin-top: 15px"> 
-                        <label><strong>FOT: </strong>${!data.features[0].properties.fot_adm ? 'Sin Especificar' :  data.features[0].properties.fot_adm }</label>
+                        <label><strong>FOT: </strong>${!data.features[0].properties.fot_adm ? '-' :  data.features[0].properties.fot_adm }</label>
                     </div>
                     <div style="margin-top: 15px"> 
-                        <label><strong>FOT MÁX: </strong>${!data.features[0].properties.fot_max ? 'Sin Especificar' :  data.features[0].properties.fot_max }</label>
+                        <label><strong>FOT MÁX: </strong>${!data.features[0].properties.fot_max ? '-' :  data.features[0].properties.fot_max }</label>
                     </div>
                 </div>`
               }    
@@ -183,19 +183,19 @@ function closeSidebar() {
   })
 
   function afectacionesContentOutClose(feature){
-     return   `<div class="popup" style="margin-top: 25px;margin-bottom: 20px">
+     return   `<div class="popup" style="margin-top: 25px;margin-bottom: 35px">
                   <div><h4>AFECTACIÓN DE CALLE</h4></div>
-                <div style="margin-top: 12px"> 
+                <div style="margin-top: 20px"> 
                   <label><strong>Nombre: </strong>${feature.properties.nombre_art}</label>
                 </div>
                 <div style="margin-top: 15px"> 
-                  <label><strong>Tramo: </strong>${!feature.properties.tramo ? 'Sin Especificar' :  feature.properties.tramo }</label>
+                  <label><strong>Tramo: </strong>${!feature.properties.tramo ? '-' :  feature.properties.tramo }</label>
                 </div>  
                 <div style="margin-top: 15px"> 
-                  <label><strong>Ordenanza: </strong>${!feature.properties.ordenanza ? 'Sin Especificar' :  feature.properties.ordenanza }</label>
+                  <label><strong>Ordenanza: </strong>${!feature.properties.ordenanza ? '-' :  feature.properties.ordenanza }</label>
                 </div>
                 <div style="margin-top: 15px"> 
-                  <label><strong>Ancho: </strong> ${!feature.properties.ancho_ofic ? 'Sin Especificar' :  feature.properties.ancho_ofic }</label>
+                  <label><strong>Ancho: </strong> ${!feature.properties.ancho_ofic ? '-' :  feature.properties.ancho_ofic }</label>
                 </div>
               </div>`  
   }
